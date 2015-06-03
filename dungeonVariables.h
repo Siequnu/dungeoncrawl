@@ -28,5 +28,6 @@
     
     const char gateSymbol = 'X';
     int gateLength = 5;
+    bool gateIsOpen = false;
     
 #endif

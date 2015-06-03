@@ -106,9 +106,10 @@ int levelLoop () {
 
 
 void advanceLevel () {
-    // Increment levelNumber and treasureScoreValue
+    // Increment level variables
     levelNumber = levelNumber + 1;
     int treasureScoreValue = 50 * levelNumber;
+    gateIsOpen = false;
             
     // Output level change message
     system ("clear");
@@ -259,12 +260,14 @@ void addEnemyPositions () {
 int movementLoop () {    
     // Move enemies
     int enemyMove = moveEnemies();
+    
+    // Deal with enemy/player collision
     if (enemyMove == 1) {
         cout << endl << "You got caught by a ghost! You have died!";
         return 0;
     }
     
-    // Get player input
+    // Get player directional input
     char playerInput;
     cin >> playerInput;
         
@@ -273,6 +276,8 @@ int movementLoop () {
     if (!(playerInput != 'a' && playerInput != 's' && playerInput != 'd' && playerInput != 'w'))
         // Move player
         moveResult = movePlayer (playerInput);
+    else
+        cout << "To move, press [a], [w], [s] or [d] and hit enter!";
            
     // Print map
     printTerrain ();
@@ -298,14 +303,22 @@ int movementLoop () {
 }
 
 void openGate () {
-    for (int y = 0; y < lengthOfColumns; ++y) {
-        for (int x = 0; x < lengthOfRows; ++x) {
-            char tile = terrain[y][x];
-            if (tile == 'X') {
-                terrain[y][x] = '\'';
+    if (gateIsOpen == false) {
+        for (int y = 0; y < lengthOfColumns; ++y) {
+            for (int x = 0; x < lengthOfRows; ++x) {
+                char tile = terrain[y][x];
+                if (tile == 'X') {
+                    terrain[y][x] = '\'';
+                }
             }
         }
+        // Update printed map
+        printTerrain();
+        
+        // Update gate status
+        gateIsOpen = true;   
     }
+    
 }
 
 
@@ -338,21 +351,22 @@ int moveEnemies () {
                 break;
         }
     
-        // Get info on tile player moved to
+        // Update location to target tile
         int newYPosition = enemyPositions[enemy][1], newXPosition = enemyPositions[enemy][0];
         
-        // Evaluate tile enemy wants to move to
-        char enemyTile = terrain[newYPosition][newXPosition];
+        // Evaluate target tile collisions
+        char targetTile = terrain[newYPosition][newXPosition];
+        
+        // If player has been hit
+        if (targetTile == '#') {
+            return 1;
+        }
         
         // Deal with obstacles, reset to old position (don't move)
-        if (enemyTile == '^' || enemyTile == '*' || enemyTile == '@' || enemyTile == 'X' || enemyTile == '\'') {
+        if (targetTile == '^' || targetTile == '*' || targetTile == '@' || targetTile == 'X' || targetTile == '\'') {
             // Reset player position
             enemyPositions[enemy][1] = oldEnemyYPosition;
             enemyPositions[enemy][0] = oldEnemyXPosition;
-        }
-        
-        if (enemyTile == '#') {
-            return 1;
         }
     }
     
@@ -445,6 +459,4 @@ int readPlayerTile () {
         default:
             return 1;
     }
-
-    return 1;
 }
