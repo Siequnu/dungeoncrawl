@@ -8,26 +8,31 @@
 using namespace std;
 
 // Declare function prototypes
+void displayIntroMessage();
 void constructTerrain();
-void printTerrain ();
-void addEnemyPositions ();
+void printTerrain();
+void addEnemyPositions();
 
-void gameLoop ();
-int levelLoop ();
+void gameLoop();
+int levelLoop();
 
-void incrementScore ();
-void advanceLevel ();
-bool restartGame ();
+void incrementScore();
+void advanceLevel();
+bool restartGame();
 
-int movementLoop ();
-int movePlayer (char directionKey);
-int moveEnemies ();
+int movementLoop();
+int getPlayerMoveResult();
+int movePlayer(char directionKey);
+int moveEnemies();
 
-int readPlayerTile ();
-void openGate ();
+int readPlayerTile();
+void openGate();
 
 
 int main () {
+    
+    displayIntroMessage();
+    
     bool playAgain;
     
     do {
@@ -42,7 +47,31 @@ int main () {
     return 0;
 }
 
-bool restartGame () {
+void displayIntroMessage() {
+    system("clear");
+    
+    cout << "    _____                                        _____                    _           " << endl;
+    cout << "   |  __ \\                                      / ____|                  | |          " << endl;
+    cout << "   | |  | |_   _ _ __   __ _  ___  ___  _ __   | |     _ __ __ ___      _| | ___ _ __ " << endl;
+    cout << "   | |  | | | | | '_ \\ / _` |/ _ \\/ _ \\| '_ \\  | |    | '__/ _` \\ \\ /\\ / / |/ _ \\ '__|" << endl;
+    cout << "   | |__| | |_| | | | | (_| |  __/ (_) | | | | | |____| | | (_| |\\ V  V /| |  __/ |   " << endl;
+    cout << "   |_____/ \\__,_|_| |_|\\__, |\\___|\\___/|_| |_|  \\_____|_|  \\__,_| \\_/\\_/ |_|\\___|_|   " << endl;
+    cout << "                        __/ |                                                         " << endl;
+    cout << "                       |___/                                                          " << endl;
+    
+    cout << endl << "Welcome to Dungeon Crawler v.0.1 by Patrick Johansson\n\n\n";
+    
+    cout << "Instructions:\n\n" 
+    << "Control the player using the a, w, s & d keys and pressing enter. \n\n"
+    << "You must collect all the keys (*) to open the gates (XXXX), while avoiding the lurking ghouls (@). \n\n"
+    << "Walls (^) are solid and impenetrable. \n \n\n\n";
+    
+    cout << "Press enter to continue...";
+    cin.ignore();
+    
+}
+
+bool restartGame() {
     char playAgain;
     
     // Prompt player to play again
@@ -114,11 +143,11 @@ void advanceLevel () {
     // Output level change message
     system ("clear");
     cout << "Level complete!" << endl << endl;  
-    cout << "Entering level " << levelNumber << '.' << endl << endl << "Press any key then enter to continue...";
-            
-    // Wait for input to proceed
-    char anyCharInput;
-    cin >> anyCharInput;   
+    cout << "Entering level " << levelNumber << '.' << endl << endl << "Press enter to continue...";
+    
+    // Wait for input
+    cin.ignore();
+    cin.get();
 }
 
 void constructTerrain () {
@@ -256,6 +285,20 @@ void addEnemyPositions () {
     }
 }
 
+int getPlayerMoveResult () {
+    char playerInput;
+    cin >> playerInput;
+        
+    // Validate input
+    int moveResult = 0;
+    if (!(playerInput != 'a' && playerInput != 's' && playerInput != 'd' && playerInput != 'w'))
+        // Move player
+        moveResult = movePlayer (playerInput);
+    else
+        cout << "To move, press [a], [w], [s] or [d] and hit enter!";
+        
+    return moveResult;
+}
 
 int movementLoop () {    
     // Move enemies
@@ -268,16 +311,7 @@ int movementLoop () {
     }
     
     // Get player directional input
-    char playerInput;
-    cin >> playerInput;
-        
-    // Validate input
-    int moveResult;
-    if (!(playerInput != 'a' && playerInput != 's' && playerInput != 'd' && playerInput != 'w'))
-        // Move player
-        moveResult = movePlayer (playerInput);
-    else
-        cout << "To move, press [a], [w], [s] or [d] and hit enter!";
+    int moveResult = getPlayerMoveResult (); 
            
     // Print map
     printTerrain ();

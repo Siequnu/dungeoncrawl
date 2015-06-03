@@ -22,9 +22,9 @@
     int numberOfWalls = 7;
     const int wallLength = 9;
     
+    const char enemySymbol = '@';
     const int numberOfEnemies = 5;
     int enemyPositions[numberOfEnemies][2];
-    const char enemySymbol = '@';
     
     const char gateSymbol = 'X';
     int gateLength = 5;
