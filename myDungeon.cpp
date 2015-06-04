@@ -32,6 +32,9 @@ void openGate();
 
 int main () {
     
+    // Seed random generator
+    srand(time(0));
+    
     displayIntroMessage();
     
     bool playAgain;
