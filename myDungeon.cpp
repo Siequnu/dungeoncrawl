@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <vector>
 
 #include "dungeonVariables.h"
 
@@ -157,8 +156,7 @@ void advanceLevel () {
 }
 
 void constructTerrain () {
-    // Seed random generator
-    srand(time(0));
+    
     
     // Fill terrain with ' '
     for (int y = 0; y < (lengthOfColumns - 1); ++y) {
