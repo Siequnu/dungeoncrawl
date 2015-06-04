@@ -143,7 +143,7 @@ int levelLoop () {
 void advanceLevel () {
     // Increment level variables
     levelNumber = levelNumber + 1;
-    int treasureScoreValue = 50 * levelNumber;
+    treasureScoreValue = 50 * levelNumber;
     gateIsOpen = false;
             
     // Output level change message
