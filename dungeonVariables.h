@@ -1,5 +1,5 @@
-#ifndef PROGRAM_VARIABLES_H
-#define PROGRAM_VARIABLES_H
+#ifndef DUNGEONVARIABLES_H
+#define DUNGEONVARIABLES_H
         
     // Declare game variables
     int levelNumber = 1;
