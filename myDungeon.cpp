@@ -18,6 +18,7 @@ int levelLoop();
 
 void incrementScore();
 void advanceLevel();
+void resetLevel();
 bool restartGame();
 
 int movementLoop();
@@ -82,18 +83,20 @@ bool restartGame() {
     
     // Convert input to boolean
     bool playAgainBool;
-    if (playAgain == 'y')
-        playAgainBool = true;
-    else if (playAgain == 'n')
-        playAgainBool = false;
+    (playAgain == 'y') ? (playAgainBool = true) : (playAgainBool = false);
         
-    // Reset score and level number
-    score = 0;
-    levelNumber = 1;
+    // Reset variables to level 1
+    resetLevel();
    
     return playAgainBool;   
 }
 
+void resetLevel() {
+    score = 0;
+    levelNumber = 1;
+    gateIsOpen = false;
+    treasureScoreValue = 50 * levelNumber;    
+}
 
 void gameLoop () {
     int gameResult;
