@@ -185,11 +185,11 @@ void constructEmptyTerrain() {
 
 void constructTerrainBorders () {
     // Insert borders
-    for (int i = 0; i < (lengthOfColumns -1); ++i) {
+    for (int i = 0; i < (lengthOfColumns); ++i) {
         terrain[i][0] = wallSymbol;
         terrain[0][i] = wallSymbol;
-        terrain[i][lengthOfColumns - 2] = wallSymbol;
-        terrain[lengthOfRows - 2][i] = wallSymbol;
+        terrain[i][lengthOfColumns - 1] = wallSymbol;
+        terrain[lengthOfRows - 1][i] = wallSymbol;
     }    
 }
 
@@ -302,8 +302,8 @@ void printTerrain () {
     cout << endl << "Level: " << levelNumber << "      Score: " << score  <<  "      Hi-score: " << highScore << endl << endl;
 
     // Print terrainLayout
-    for (int y = 0; y < (lengthOfColumns - 1); ++y) {
-        for (int x = 0; x < (lengthOfRows - 1); ++x) {
+    for (int y = 0; y < (lengthOfColumns); ++y) {
+        for (int x = 0; x < (lengthOfRows); ++x) {
             cout << terrain[y][x] << ' ';
         }
         cout << endl;
