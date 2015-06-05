@@ -15,7 +15,7 @@ void constructTerrainWalls();
 void constructLevelGate();
 void constructLevelEnemies();
 void constructLevelTreasure();
-void initialisePlayerPosition(); 
+void initialisePlayerPosition();
 
 void printTerrain();
 void addEnemyPositions();
@@ -171,7 +171,7 @@ void constructTerrain () {
     constructLevelGate();
     constructLevelEnemies();
     constructLevelTreasure();
-    initialisePlayerPosition();   
+    initialisePlayerPosition();
 }
 
 void constructEmptyTerrain() {
@@ -180,7 +180,7 @@ void constructEmptyTerrain() {
         for (int x = 0; x < (lengthOfRows - 1); ++x) {
             terrain[y][x] = ' ';
         }
-    }  
+    }
 }
 
 void constructTerrainBorders () {
@@ -190,15 +190,15 @@ void constructTerrainBorders () {
         terrain[0][i] = wallSymbol;
         terrain[i][lengthOfColumns - 1] = wallSymbol;
         terrain[lengthOfRows - 1][i] = wallSymbol;
-    }    
+    }
 }
 
 void constructTerrainWalls () {
     // Insert walls
     for (int walls = 0; walls < numberOfWalls; ++walls) {
         // Get wall origin
-        int wallYCoord = rand() % (lengthOfColumns - 1) + 2;
-        int wallXCoord = rand() % (lengthOfColumns - 1) + 2;
+        int wallYCoord = rand() % (lengthOfColumns - 2) + 2; // Between 2-39
+        int wallXCoord = rand() % (lengthOfRows - 2) + 2;
 
         // Print first block of wall
         terrain[wallYCoord][wallXCoord] = wallSymbol;
@@ -207,18 +207,18 @@ void constructTerrainWalls () {
         int verticalWallDecider = rand() % 2;
 
         // Extend wall according to verticalWallDecider
-        for (int length = 0; length < wallLength; ++length) {
+        for (int length = 1; length < wallLength; ++length) {
             // Prevent wall from escaping terrain border
             if (wallYCoord < (lengthOfColumns -1 ) && wallXCoord < (lengthOfRows - 1)) {
                 // Check wallDecider and extend the wall respectively
                 (verticalWallDecider == 1) ? (++wallYCoord) : (++wallXCoord);
-    
+
                 // Print new wall block on terrain
-                terrain[wallYCoord][wallXCoord] = wallSymbol;    
+                terrain[wallYCoord][wallXCoord] = wallSymbol;
             }
         }
 
-    }  
+    }
 }
 
 void constructLevelGate() {
@@ -247,7 +247,7 @@ void constructLevelGate() {
             gateCoord = ++gateCoord;
             terrain[0][gateCoord] = gateSymbol;
         }
-    }     
+    }
 }
 
 void constructLevelEnemies() {
@@ -263,7 +263,7 @@ void constructLevelEnemies() {
     }
 
     // Merge enemy positions to terrain
-    addEnemyPositions(); 
+    addEnemyPositions();
 }
 
 void constructLevelTreasure() {
@@ -294,7 +294,7 @@ void initialisePlayerPosition() {
     // Place player at [1][1]
     playerPosition[0] = 1;
     playerPosition[1] = 1;
-    terrain[playerPosition[0]][playerPosition[1]] = playerSymbol;   
+    terrain[playerPosition[0]][playerPosition[1]] = playerSymbol;
 }
 
 void printTerrain () {

@@ -19,7 +19,7 @@
     int numberOfTreasureItems;
     
     const char wallSymbol = '^';
-    int numberOfWalls = 7;
+    int numberOfWalls = 9;
     const int wallLength = 9;
     
     const char enemySymbol = '@';
