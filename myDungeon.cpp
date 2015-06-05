@@ -9,6 +9,14 @@ using namespace std;
 // Declare function prototypes
 void displayIntroMessage();
 void constructTerrain();
+void constructEmptyTerrain();
+void constructTerrainBorders();
+void constructTerrainWalls();
+void constructLevelGate();
+void constructLevelEnemies();
+void constructLevelTreasure();
+void initialisePlayerPosition(); 
+
 void printTerrain();
 void addEnemyPositions();
 
@@ -155,23 +163,35 @@ void advanceLevel () {
 }
 
 void constructTerrain () {
+    constructEmptyTerrain();
+    constructTerrainBorders();
+    constructTerrainWalls();
+    constructLevelGate();
+    constructLevelEnemies();
+    constructLevelTreasure();
+    initialisePlayerPosition();   
+}
 
-
+void constructEmptyTerrain() {
     // Fill terrain with ' '
     for (int y = 0; y < (lengthOfColumns - 1); ++y) {
         for (int x = 0; x < (lengthOfRows - 1); ++x) {
             terrain[y][x] = ' ';
         }
-    }
+    }  
+}
 
+void constructTerrainBorders () {
     // Insert borders
     for (int i = 0; i < (lengthOfColumns -1); ++i) {
         terrain[i][0] = '^';
         terrain[0][i] = '^';
         terrain[i][lengthOfColumns - 2] = '^';
         terrain[lengthOfRows - 2][i] = '^';
-    }
+    }    
+}
 
+void constructTerrainWalls () {
     // Insert walls
     for (int walls = 0; walls < numberOfWalls; ++walls) {
         // Get wall origin
@@ -193,8 +213,10 @@ void constructTerrain () {
             terrain[wallYCoord][wallXCoord] = wallSymbol;
         }
 
-    }
+    }  
+}
 
+void constructLevelGate() {
     // Place gate to progress to next level
     int verticalGateDecider = rand() % 2;
     bool verticalGate = static_cast<bool>(verticalGateDecider);
@@ -220,8 +242,10 @@ void constructTerrain () {
             gateCoord = ++gateCoord;
             terrain[0][gateCoord] = gateSymbol;
         }
-    }
+    }     
+}
 
+void constructLevelEnemies() {
     // Place enemies at random locations
     for (int enemy = 0; enemy < numberOfEnemies; ++enemy) {
         // Get random start coordinates
@@ -234,8 +258,10 @@ void constructTerrain () {
     }
 
     // Merge enemy positions to terrain
-    addEnemyPositions();
+    addEnemyPositions(); 
+}
 
+void constructLevelTreasure() {
     // Generate treasure
     numberOfTreasureItems = defaultNumberOfTreasureItems + levelNumber;
     for (int treasureItem = 0; treasureItem < numberOfTreasureItems; ++treasureItem) {
@@ -257,11 +283,13 @@ void constructTerrain () {
         // Add treasure to terrain
         terrain[treasureYCoord][treasureXCoord] = treasureSymbol;
     }
+}
 
+void initialisePlayerPosition() {
     // Place player at [1][1]
     playerPosition[0] = 1;
     playerPosition[1] = 1;
-    terrain[playerPosition[0]][playerPosition[1]] = playerSymbol;
+    terrain[playerPosition[0]][playerPosition[1]] = playerSymbol;   
 }
 
 void printTerrain () {
