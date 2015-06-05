@@ -27,6 +27,7 @@
     int enemyPositions[numberOfEnemies][2];
     
     const char gateSymbol = 'X';
+    const char gateSymbolOpen = '\'';
     int gateLength = 5;
     bool gateIsOpen = false;
     

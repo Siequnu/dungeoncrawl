@@ -184,10 +184,10 @@ void constructEmptyTerrain() {
 void constructTerrainBorders () {
     // Insert borders
     for (int i = 0; i < (lengthOfColumns -1); ++i) {
-        terrain[i][0] = '^';
-        terrain[0][i] = '^';
-        terrain[i][lengthOfColumns - 2] = '^';
-        terrain[lengthOfRows - 2][i] = '^';
+        terrain[i][0] = wallSymbol;
+        terrain[0][i] = wallSymbol;
+        terrain[i][lengthOfColumns - 2] = wallSymbol;
+        terrain[lengthOfRows - 2][i] = wallSymbol;
     }    
 }
 
@@ -276,7 +276,7 @@ void constructLevelTreasure() {
             treasureYCoord = rand() % (lengthOfColumns - 4) + 2;
             treasureXCoord = rand() % (lengthOfRows - 4) + 2;
 
-            if (terrain[treasureYCoord][treasureXCoord] != '@') {
+            if (terrain[treasureYCoord][treasureXCoord] != enemySymbol) {
                 terrainIsOccupied = false;
             }
         } while (terrainIsOccupied == true);
@@ -372,8 +372,8 @@ void openGate () {
         for (int y = 0; y < lengthOfColumns; ++y) {
             for (int x = 0; x < lengthOfRows; ++x) {
                 char tile = terrain[y][x];
-                if (tile == 'X') {
-                    terrain[y][x] = '\'';
+                if (tile == gateSymbol) {
+                    terrain[y][x] = gateSymbolOpen;
                 }
             }
         }
@@ -423,12 +423,12 @@ int moveEnemies () {
         char targetTile = terrain[newYPosition][newXPosition];
 
         // If player has been hit
-        if (targetTile == '#') {
+        if (targetTile == playerSymbol) {
             return 1;
         }
 
         // Deal with obstacles, reset to old position (don't move)
-        if (targetTile == '^' || targetTile == '*' || targetTile == '@' || targetTile == 'X' || targetTile == '\'') {
+        if (targetTile == wallSymbol || targetTile == treasureSymbol || targetTile == enemySymbol || targetTile == gateSymbol || targetTile == gateSymbolOpen) {
             // Reset player position
             enemyPositions[enemy][1] = oldEnemyYPosition;
             enemyPositions[enemy][0] = oldEnemyXPosition;
@@ -503,7 +503,7 @@ void incrementScore () {
 int readPlayerTile () {
     char playerTile = terrain[playerPosition[0]][playerPosition[1]];
     switch (playerTile) {
-        case '*':
+        case treasureSymbol:
             cout << "You found a key!";
             numberOfTreasureItems = numberOfTreasureItems - 1;
 
@@ -511,15 +511,15 @@ int readPlayerTile () {
             incrementScore();
 
             return 1;
-        case '^':
+        case wallSymbol:
             return 0;
-        case 'X':
+        case gateSymbol:
             cout << "To unlock this gate collect all the keys (*)";
             return 0;
-        case '@':
+        case enemySymbol:
             cout << "You die." << endl;
             return 2;
-        case '\'':
+        case gateSymbolOpen:
             return 3; // Player is at unlocked gate
         default:
             return 1;
