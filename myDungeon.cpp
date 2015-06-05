@@ -208,11 +208,14 @@ void constructTerrainWalls () {
 
         // Extend wall according to verticalWallDecider
         for (int length = 0; length < wallLength; ++length) {
-            // Check wallDecider and extend the wall respectively
-            (verticalWallDecider == 1) ? (++wallYCoord) : (++wallXCoord);
-
-            // Print new wall block on terrain
-            terrain[wallYCoord][wallXCoord] = wallSymbol;
+            // Prevent wall from escaping terrain border
+            if (wallYCoord < (lengthOfColumns -1 ) && wallXCoord < (lengthOfRows - 1)) {
+                // Check wallDecider and extend the wall respectively
+                (verticalWallDecider == 1) ? (++wallYCoord) : (++wallXCoord);
+    
+                // Print new wall block on terrain
+                terrain[wallYCoord][wallXCoord] = wallSymbol;    
+            }
         }
 
     }  
