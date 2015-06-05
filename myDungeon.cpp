@@ -73,8 +73,10 @@ void displayIntroMessage() {
     cout << endl << "Welcome to Dungeon Crawler v.0.2 by Patrick Johansson\n\n\n";
     cout << "Instructions:\n\n"
     << "Control the player using the a, w, s & d keys and pressing enter. \n\n"
-    << "You must collect all the keys (*) to open the gates (XXXX), while avoiding the lurking ghouls (@). \n\n"
-    << "Walls (^) are solid and impenetrable. \n \n\n\n";
+    << "You must collect all the keys (" << treasureSymbol << ") to open the gates ("
+    << gateSymbol << gateSymbol << gateSymbol << gateSymbol << ')'
+    << " while avoiding the lurking ghouls (" << enemySymbol << "). \n\n"
+    << "Walls (" << wallSymbol << ") are solid and impenetrable. \n \n\n\n";
 
     cout << "Press enter to continue...";
     cin.ignore();
@@ -514,7 +516,7 @@ int readPlayerTile () {
         case wallSymbol:
             return 0;
         case gateSymbol:
-            cout << "To unlock this gate collect all the keys (*)";
+            cout << "To unlock this gate collect all the keys (" << treasureSymbol << ')';
             return 0;
         case enemySymbol:
             cout << "You die." << endl;
