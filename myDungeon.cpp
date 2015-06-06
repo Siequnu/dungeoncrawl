@@ -413,7 +413,10 @@ int moveEnemies () {
     for (int enemy = 0; enemy < numberOfEnemies; ++enemy) {
         // Save old position
         int oldEnemyYPosition = enemyPositions[enemy][1], oldEnemyXPosition = enemyPositions[enemy][0];
-
+        
+        // Overwrite old position on terrain
+        terrain[oldEnemyYPosition][oldEnemyXPosition] = ' ';
+        
         // Get random between 1-4 to decide direction of move
         int randomMove = rand() % 4 + 1;
 
@@ -437,9 +440,6 @@ int moveEnemies () {
 
         // Update location to target tile
         int newYPosition = enemyPositions[enemy][1], newXPosition = enemyPositions[enemy][0];
-
-        // Overwrite old position on terrain
-        terrain[oldEnemyYPosition][oldEnemyXPosition] = ' ';
         
         // Evaluate target tile collisions
         char targetTile = terrain[newYPosition][newXPosition];
@@ -451,14 +451,14 @@ int moveEnemies () {
 
         // Deal with obstacles, reset to old position (don't move)
         if (targetTile == wallSymbol || targetTile == treasureSymbol || targetTile == enemySymbol || targetTile == gateSymbol || targetTile == gateSymbolOpen) {
-            // Reset player position
+            // Reset enemy position
             enemyPositions[enemy][1] = oldEnemyYPosition;
             enemyPositions[enemy][0] = oldEnemyXPosition;
         }
+        
+        // Add enemy to terrain
+        terrain[(enemyPositions[enemy][1])][(enemyPositions[enemy][0])] = enemySymbol;
     }
-
-    // Merge new positions
-    addEnemyPositions();
 
     return 0;
 }
