@@ -414,9 +414,6 @@ int moveEnemies () {
         // Save old position
         int oldEnemyYPosition = enemyPositions[enemy][1], oldEnemyXPosition = enemyPositions[enemy][0];
 
-        // Overwrite old position on terrain
-        terrain[oldEnemyYPosition][oldEnemyXPosition] = ' ';
-
         // Get random between 1-4 to decide direction of move
         int randomMove = rand() % 4 + 1;
 
@@ -441,6 +438,9 @@ int moveEnemies () {
         // Update location to target tile
         int newYPosition = enemyPositions[enemy][1], newXPosition = enemyPositions[enemy][0];
 
+        // Overwrite old position on terrain
+        terrain[oldEnemyYPosition][oldEnemyXPosition] = ' ';
+        
         // Evaluate target tile collisions
         char targetTile = terrain[newYPosition][newXPosition];
 
