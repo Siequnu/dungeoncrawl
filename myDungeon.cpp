@@ -120,27 +120,27 @@ void gameLoop () {
     int gameResult;
 
     setDefaultPlayerHealth();
-    
+
     do {
         // Set up and play level
         do {
             constructTerrain ();
-    
+
             printTerrain ();
-    
+
             gameResult = levelLoop ();
-    
+
             // Check for level change
             if (gameResult == 2) {
                 // Advance variables to next level
                 advanceLevel ();
             }
-    
+
         } while (gameResult != 0);  // gameResult 0 = player is dead
-        
+
         // Player died, decrement health
         decrementPlayerHealth();
-        
+
     } while (playerHealth  > 0); // If player has no health left, ask to restart game
 }
 
@@ -413,10 +413,10 @@ int moveEnemies () {
     for (int enemy = 0; enemy < numberOfEnemies; ++enemy) {
         // Save old position
         int oldEnemyYPosition = enemyPositions[enemy][1], oldEnemyXPosition = enemyPositions[enemy][0];
-        
+
         // Overwrite old position on terrain
         terrain[oldEnemyYPosition][oldEnemyXPosition] = ' ';
-        
+
         // Get random between 1-4 to decide direction of move
         int randomMove = rand() % 4 + 1;
 
@@ -440,7 +440,7 @@ int moveEnemies () {
 
         // Update location to target tile
         int newYPosition = enemyPositions[enemy][1], newXPosition = enemyPositions[enemy][0];
-        
+
         // Evaluate target tile collisions
         char targetTile = terrain[newYPosition][newXPosition];
 
@@ -455,7 +455,7 @@ int moveEnemies () {
             enemyPositions[enemy][1] = oldEnemyYPosition;
             enemyPositions[enemy][0] = oldEnemyXPosition;
         }
-        
+
         // Add enemy to terrain
         terrain[(enemyPositions[enemy][1])][(enemyPositions[enemy][0])] = enemySymbol;
     }
