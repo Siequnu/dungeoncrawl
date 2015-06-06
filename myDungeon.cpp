@@ -26,7 +26,7 @@ int levelLoop();
 void incrementScore();
 void advanceLevel();
 void resetLevel();
-bool restartGame();
+bool restartGamePrompt();
 
 void setDefaultPlayerHealth();
 void incrementPlayerHealth();
@@ -56,7 +56,7 @@ int main () {
         gameLoop();
 
         // When finished, player is dead, ask to play again
-        playAgain = restartGame ();
+        playAgain = restartGamePrompt ();
 
     } while (playAgain == true);
 
@@ -88,7 +88,7 @@ void displayIntroMessage() {
 
 }
 
-bool restartGame() {
+bool restartGamePrompt() {
     char playAgain;
 
     // Prompt player to play again
