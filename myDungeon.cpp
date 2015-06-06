@@ -28,6 +28,11 @@ void advanceLevel();
 void resetLevel();
 bool restartGame();
 
+void setDefaultPlayerHealth();
+void incrementPlayerHealth();
+void decrementPlayerHealth();
+void updatePlayerHealthString();
+
 int movementLoop();
 int getPlayerMoveResult();
 int movePlayer(char directionKey);
@@ -88,7 +93,8 @@ bool restartGame() {
 
     // Prompt player to play again
     do {
-        cout << " Play again? [y]es / [n]o: ";
+        printTerrain();
+        cout << "You have died! Play again? [y]es / [n]o: ";
         cin >> playAgain;
     } while (playAgain != 'y' && playAgain != 'n');
 
@@ -107,26 +113,35 @@ void resetLevel() {
     levelNumber = 1;
     gateIsOpen = false;
     treasureScoreValue = 50 * levelNumber;
+    setDefaultPlayerHealth();
 }
 
 void gameLoop () {
     int gameResult;
 
-    // Set up and play level
+    setDefaultPlayerHealth();
+    
     do {
-        constructTerrain ();
-
-        printTerrain ();
-
-        gameResult = levelLoop ();
-
-        // Check for level change
-        if (gameResult == 2) {
-            // Advance variables to next level
-            advanceLevel ();
-        }
-
-    } while (gameResult != 0);  // gameResult 0 = player is dead
+        // Set up and play level
+        do {
+            constructTerrain ();
+    
+            printTerrain ();
+    
+            gameResult = levelLoop ();
+    
+            // Check for level change
+            if (gameResult == 2) {
+                // Advance variables to next level
+                advanceLevel ();
+            }
+    
+        } while (gameResult != 0);  // gameResult 0 = player is dead
+        
+        // Player died, decrement health
+        decrementPlayerHealth();
+        
+    } while (playerHealth  > 0); // If player has no health left, ask to restart game
 }
 
 int levelLoop () {
@@ -153,6 +168,7 @@ void advanceLevel () {
     levelNumber = levelNumber + 1;
     treasureScoreValue = 50 * levelNumber;
     gateIsOpen = false;
+    incrementPlayerHealth();
 
     // Output level change message
     system ("clear");
@@ -302,7 +318,8 @@ void printTerrain () {
     system("clear");
 
     // Get extra lines at top for status messages
-    cout << endl << "Level: " << levelNumber << "      Score: " << score  <<  "      Hi-score: " << highScore << endl << endl;
+    cout << endl << "Level: " << levelNumber << "      Score: " << score  <<  "      Hi-score: " << highScore << "    Health: " << playerHealthString
+    << endl << endl;
 
     // Print terrainLayout
     for (int y = 0; y < (lengthOfColumns); ++y) {
@@ -528,5 +545,31 @@ int readPlayerTile () {
             return 3; // Player is at unlocked gate
         default:
             return 1;
+    }
+}
+
+void setDefaultPlayerHealth () {
+    playerHealth = defaultPlayerHealth;
+    updatePlayerHealthString ();
+}
+
+void incrementPlayerHealth () {
+    playerHealth = playerHealth + 1;
+    updatePlayerHealthString ();
+}
+
+void decrementPlayerHealth () {
+    playerHealth = playerHealth - 1;
+    updatePlayerHealthString ();
+}
+
+void updatePlayerHealthString () {
+    // Empty string
+    playerHealthString.clear();
+
+    // Rebuild string from playerHealth int
+    for (int i = 0; i < playerHealth; ++i) {
+        playerHealthString.append(playerHealthSymbol);
+        //playerHealthString = playerHealthString + playerHealthSymbol;
     }
 }

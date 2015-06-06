@@ -14,6 +14,11 @@
     const char playerSymbol = '#';
     char playerPosition[2] = {1, 1};
     
+    const std::string playerHealthSymbol = "♥";
+    const char defaultPlayerHealth = 1;
+    int playerHealth;
+    std::string playerHealthString = "";
+    
     const char treasureSymbol = '*';
     const int defaultNumberOfTreasureItems = 1;
     int numberOfTreasureItems;
